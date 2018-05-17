@@ -1,0 +1,17 @@
+INFO [05-15|19:18:19] Maximum peer count                       ETH=25 LES=0 total=25
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase:
+Repeat passphrase:
+Address: {fdb2f6dffd5e4a5f5ea6843ee292f10fe8b8c7e0}
+
+pass: solidity1
+
+fund account by
+https://faucet.rinkeby.io/
+
+https://rinkeby.etherscan.io/address/fdb2f6dffd5e4a5f5ea6843ee292f10fe8b8c7e0
+
+UNLOCK account
+
+geth.exe --rinkeby --rpc --rpcapi db,eth,net,web3,personal --unlock="0xfdb2f6dffd5e4a5f5ea6843ee292f10fe8b8c7e0"
+
