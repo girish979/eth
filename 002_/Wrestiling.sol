@@ -1,64 +1,64 @@
 pragma solidity ^0.4.22;
 
-contract Wrestling {
+contract Betting {
 
     //Two players
-    address public wrestler1;
-    address public wrestler2;
+    address public better1;
+    address public better2;
 
-    bool public wrestler1Played;
-    bool public wrestler2Played;
+    bool public better1Played;
+    bool public better2Played;
 
-    uint private wrestler1Deposit;
-    uint private wrestler2Deposit;
+    uint private better1Deposit;
+    uint private better2Deposit;
 
     bool public gameFinished; 
     address public theWinner;
     uint gains;
 
     //3 Events for match
-    event WrestlingStartsEvent(address wrestler1, address wrestler2);
-    event EndOfRoundEvent(uint wrestler1Deposit, uint wrestler2Deposit);
+    event WrestlingStartsEvent(address better1, address better2);
+    event EndOfRoundEvent(uint better1Deposit, uint better2Deposit);
     event EndOfWrestlingEvent(address winner, uint gains);
 
     //Player 1 is the person who invoked the contract
     constructor()  public {
-        wrestler1 = msg.sender;
+        better1 = msg.sender;
     }
 
     //Let player 2 register
     function registerAsAnOpponent() public {
         
         //Make sure nobody else is registered as player 2
-        require(wrestler2 == address(0));
+        require(better2 == address(0));
 
-        wrestler2 = msg.sender;
+        better2 = msg.sender;
 
         //Start the match
-        emit WrestlingStartsEvent(wrestler1, wrestler2);
+        emit WrestlingStartsEvent(better1, better2);
     }
 
 
     //Each player starts playing
     //payable -> function can receive money
     //If both played, check if there is a winner
-    function wrestle() public payable {
-        require(!gameFinished && (msg.sender == wrestler1 || msg.sender == wrestler2));
+    function bet() public payable {
+        require(!gameFinished && (msg.sender == better1 || msg.sender == better2));
 
-        if(msg.sender == wrestler1) {
-            require(wrestler1Played == false);
-            wrestler1Played = true;
-            wrestler1Deposit = wrestler1Deposit + msg.value;
+        if(msg.sender == better1) {
+            require(better1Played == false);
+            better1Played = true;
+            better1Deposit = better1Deposit + msg.value;
     	} else { 
-            require(wrestler2Played == false);
-            wrestler2Played = true;
-            wrestler2Deposit = wrestler2Deposit + msg.value;
+            require(better2Played == false);
+            better2Played = true;
+            better2Deposit = better2Deposit + msg.value;
     	}
-        if(wrestler1Played && wrestler2Played) {
-            if(wrestler1Deposit >= wrestler2Deposit * 2) {
-                endOfGame(wrestler1);
-            } else if (wrestler2Deposit >= wrestler1Deposit * 2) {
-                endOfGame(wrestler2);
+        if(better1Played && better2Played) {
+            if(better1Deposit >= better2Deposit * 2) {
+                endOfGame(better1);
+            } else if (better2Deposit >= better1Deposit * 2) {
+                endOfGame(better2);
             } else {
                 endOfRound();
             }
@@ -66,17 +66,17 @@ contract Wrestling {
     }
 
     function endOfRound() internal {
-        wrestler1Played = false;
-        wrestler2Played = false;
+        better1Played = false;
+        better2Played = false;
 
-        emit EndOfRoundEvent(wrestler1Deposit, wrestler2Deposit);
+        emit EndOfRoundEvent(better1Deposit, better2Deposit);
     }
 
     function endOfGame(address winner) internal {
         gameFinished = true;
         theWinner = winner;
 
-        gains = wrestler1Deposit + wrestler2Deposit;
+        gains = better1Deposit + better2Deposit;
         emit EndOfWrestlingEvent(winner, gains);
     }
 
