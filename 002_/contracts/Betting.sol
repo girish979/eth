@@ -17,9 +17,9 @@ contract Betting {
     uint gains;
 
     //3 Events for match
-    event WrestlingStartsEvent(address better1, address better2);
+    event BettingStartsEvent(address better1, address better2);
     event EndOfRoundEvent(uint better1Deposit, uint better2Deposit);
-    event EndOfWrestlingEvent(address winner, uint gains);
+    event EndOfBettingEvent(address winner, uint gains);
 
     //Player 1 is the person who invoked the contract
     constructor()  public {
@@ -35,7 +35,7 @@ contract Betting {
         better2 = msg.sender;
 
         //Start the match
-        emit WrestlingStartsEvent(better1, better2);
+        emit BettingStartsEvent(better1, better2);
     }
 
 
@@ -77,7 +77,7 @@ contract Betting {
         theWinner = winner;
 
         gains = better1Deposit + better2Deposit;
-        emit EndOfWrestlingEvent(winner, gains);
+        emit EndOfBettingEvent(winner, gains);
     }
 
     //Withdraw money using withdrawal pattern
